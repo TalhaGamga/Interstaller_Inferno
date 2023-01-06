@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class RocketBase : CollectableBase
 {
-    public override void Use()
+    public override void Use(ShipBase ship)
     {
         throw new System.NotImplementedException();
     }

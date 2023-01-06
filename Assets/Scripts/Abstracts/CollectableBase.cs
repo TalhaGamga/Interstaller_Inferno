@@ -4,5 +4,5 @@ using UnityEngine;
 using DG.Tweening;
 public abstract class CollectableBase : MonoBehaviour, ICollectable
 {
-    public abstract void Use();
+    public abstract void Use(ShipBase ship);
 }

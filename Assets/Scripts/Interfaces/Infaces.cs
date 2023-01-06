@@ -1,7 +1,7 @@
 using UnityEngine;
 public interface ICollectable
 {
-    public abstract void Use();
+    public abstract void Use(ShipBase ship);
 }
 
 public interface IShip
