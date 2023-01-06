@@ -5,6 +5,7 @@ public interface ICollectable
 }
 
 public interface IShip
-{}
+{
+}
 
 
