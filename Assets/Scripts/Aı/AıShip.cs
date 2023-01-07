@@ -5,7 +5,7 @@ using UnityEngine;
 public class AıShip : ShipBase
 {
     public StateAı currentState;
-    public StateAı fireState = new FireState(), fightState = new FightState(), followState = new FollowState();
+    public StateAı fireState = new FireState(), fightState = new ObstacleState(), followState = new FollowState();
     private Move move;
 
     public float radarForwardSize = 4, radarUpSize = 10;
@@ -16,16 +16,16 @@ public class AıShip : ShipBase
     {
         get => rotationSpeed; set
         {
-            if (value > 1) {
+            if (value > 1)
+            {
                 rotationSpeed = 1;
             }
-            if (value<=0)
+            if (value <= 0)
             {
                 rotationSpeed = 0;
             }
         }
     }
-
     private void Update()
     {
         currentState.UpdateState(this);
@@ -52,14 +52,14 @@ public class AıShip : ShipBase
         planePos = transform.position;
         planePos.x += multiple * Time.deltaTime;
         transform.position = planePos;
-        transform.rotation = Quaternion.Euler(0, 0, -45*rotationSpeed);
+        transform.rotation = Quaternion.Euler(0, 0, -45 * rotationSpeed);
     }
     public void MoveLeft()
     {
-        if (Move.right==move)
+        if (Move.right == move)
         {
-            RotationSpeed -= Time.deltaTime*3f;
-            if (RotationSpeed==0)
+            RotationSpeed -= Time.deltaTime * 3f;
+            if (RotationSpeed == 0)
             {
                 move = Move.left;
             }
@@ -70,8 +70,8 @@ public class AıShip : ShipBase
         }
         planePos = transform.position;
         planePos.x -= multiple * Time.deltaTime;
-        transform.position = planePos;     
-        transform.rotation = Quaternion.Euler(0, 0, 45*RotationSpeed);
+        transform.position = planePos;
+        transform.rotation = Quaternion.Euler(0, 0, 45 * RotationSpeed);
     }
 
 
@@ -92,7 +92,7 @@ public class AıShip : ShipBase
         planePos = transform.position;
         planePos.y += multiple * Time.deltaTime;
         transform.position = planePos;
-        transform.rotation = Quaternion.Euler(-45* RotationSpeed, 0, 0);
+        transform.rotation = Quaternion.Euler(-45 * RotationSpeed, 0, 0);
     }
 
     public void MoveDown()
@@ -112,7 +112,7 @@ public class AıShip : ShipBase
         planePos = transform.position;
         planePos.y -= multiple * Time.deltaTime;
         transform.position = planePos;
-        transform.rotation = Quaternion.Euler(45* RotationSpeed, 0, 0);
+        transform.rotation = Quaternion.Euler(45 * RotationSpeed, 0, 0);
     }
 }
 
@@ -135,15 +135,53 @@ public class FireState : StateAı
     }
 }
 
-public class FightState : StateAı
+public class ObstacleState : StateAı
 {
+    Transform buffTransform;
+    Collider[] hits = new Collider[50];
+    int hitSize;
+    float maxSize = float.MaxValue, temp;
+    bool isLeft, isRight, isUp, isDown;
     public override void EnterState(AıShip aiShip)
     {
-
+        aiShip.RotationSpeed = 0;
     }
     public override void UpdateState(AıShip aiShip)
     {
 
+    }
+    private void ClosestBuff(AıShip aiShip)
+    {
+
+        isLeft = Physics.Raycast(aiShip.transform.position - aiShip.transform.right, aiShip.transform.forward, 50f, 7);
+        isRight = Physics.Raycast(aiShip.transform.position - aiShip.transform.right, aiShip.transform.forward, 50f, 7);
+        isUp = Physics.Raycast(aiShip.transform.position + aiShip.transform.up, aiShip.transform.forward, 50f, 7);
+        isDown = Physics.Raycast(aiShip.transform.position - aiShip.transform.up, aiShip.transform.forward, 50f, 7);
+        if (!isLeft && !!isRight && !!isUp && !!isDown)
+        {
+            aiShip.RotationSpeed = 0;// state değiştirmeyi colliderden yap
+            return;
+        }
+        Follow(aiShip);
+    }
+    private void Follow(AıShip aiShip)
+    {
+        if (isLeft)
+        {
+            aiShip.MoveLeft();
+        }
+        if (isRight)
+        {
+            aiShip.MoveRight();
+        }
+        if (isDown)
+        {
+            aiShip.MoveDown();
+        }
+        if (isRight)
+        {
+            aiShip.MoveUp();
+        }
     }
 }
 public class FollowState : StateAı
@@ -184,7 +222,8 @@ public class FollowState : StateAı
         if (.1f > aiShip.transform.position.x - followTransform.position.x)
         {
             aiShip.MoveLeft();
-        }else
+        }
+        else
         if (-.1f < aiShip.transform.position.x - followTransform.position.x)
         {
             aiShip.MoveRight();
@@ -196,7 +235,8 @@ public class FollowState : StateAı
         if (.1f > aiShip.transform.position.y - followTransform.position.y)
         {
             aiShip.MoveDown();
-        }else
+        }
+        else
         if (-.1f < aiShip.transform.position.y - followTransform.position.y)
         {
             aiShip.MoveUp();
