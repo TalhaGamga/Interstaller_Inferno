@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class RocketBase : MonoBehaviour,IFirable
+public abstract class RocketBase : MonoBehaviour/*, IFirable*/
 {
     public float damage;
 
+    public virtual void Fire()
+    {
 
-    public virtual void Fire(ShipBase ship)
+    }
+
+    public virtual void Use(ShipBase ship)
     {
         ship.TakeDamage(damage);
     }
@@ -21,7 +25,6 @@ public abstract class RocketBase : MonoBehaviour,IFirable
     {
         if (TryGetComponent(out ShipBase shipBase))
         {
-            Fire(shipBase);
         }
     }
 }

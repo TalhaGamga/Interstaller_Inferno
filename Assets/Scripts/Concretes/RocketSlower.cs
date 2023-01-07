@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class RocketSlower : RocketBase
 {
-    public override void Fire(ShipBase ship)
+
+    float interval;
+
+    
+    private IEnumerator IESlowing(float interval)
     {
-        base.Fire(ship);
-        ship.Slow(1f);
+        float temp = 1;
+
+        temp *= .5f;
+        yield return new WaitForSeconds(interval);
+        temp *= 2f;
     }
 }
