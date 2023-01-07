@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-public abstract class SkillBase : CollectableBase
+
+public class HealthDown : SkillBase
 {
+
     public override void Use(ShipBase ship)
     {
-        throw new System.NotImplementedException();
+
+        ship.hp -= 40;
+
     }
+
 }

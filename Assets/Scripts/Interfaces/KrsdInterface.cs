@@ -4,7 +4,8 @@ using UnityEngine;
 
 public interface IFirable
 {
-    void Fire(ShipBase Source);
+    void Fire();
+    void GiveDamage(ShipBase Source);
     void Move(ShipBase Source);
 }
 public enum Move

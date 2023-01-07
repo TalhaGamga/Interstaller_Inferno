@@ -21,16 +21,7 @@ public abstract class ShipBase : MonoBehaviour
     {
 
     }
-    public virtual void Slow(float Timer)
-    {
-        StartCoroutine(IESlowing(Timer));
-    }
-    private IEnumerator IESlowing(float timer)
-    {
-        speedMultier *= .5f;
-        yield return new WaitForSeconds(timer);
-        speedMultier *= 2f;
-    }
+    
     public virtual void Stun()
     {
 
@@ -39,7 +30,10 @@ public abstract class ShipBase : MonoBehaviour
     {
         skillBase.Use(this);
     }
+
+    #region Movement
     public Action moveAction => Movement;
+
     public virtual void Movement()
     {
         if (isStun)
@@ -48,5 +42,7 @@ public abstract class ShipBase : MonoBehaviour
         }
 
     }
+    #endregion
+
 
 }
