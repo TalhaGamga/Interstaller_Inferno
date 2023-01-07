@@ -8,7 +8,7 @@ public class Ship : ShipBase
     float brakeInput;
     float fireEngineInput;
     float yawInput;
-
+    float rollInput;
     //[SerializeField] float speed = 80f;
     //[SerializeField] float boostedSpeed = 120f;
     [SerializeField] float brakeMultier = 50;
@@ -29,6 +29,8 @@ public class Ship : ShipBase
     float yYawRot;
     float zYawRot;
 
+    bool isRolling = false;
+    bool canRoll = true;
     void Start()
     {
         screenCenter.x = Screen.width / 2;
@@ -37,12 +39,13 @@ public class Ship : ShipBase
         Cursor.lockState = CursorLockMode.Confined;
     }
 
-    public  override void Movement()
+    public override void Movement()
     {
         #region Inputs
         fireEngineInput = Input.GetAxis("FireEngine");
         brakeInput = Input.GetAxis("Brake");
         yawInput = Input.GetAxis("HorizontalYaw");
+        rollInput = Input.GetAxisRaw("Roll");
         #endregion
 
         #region MouseDistance 
@@ -54,7 +57,7 @@ public class Ship : ShipBase
         #endregion
 
         #region Translation
-        transform.Translate((transform.forward * (speed + fireEngineInput * (1.5f*speed))) * Time.deltaTime, Space.World);
+        transform.Translate((transform.forward * (speed + fireEngineInput * (1.5f * speed))) * Time.deltaTime, Space.World);
 
         //speed -= transform.forward.y * Time.deltaTime * 50;
 
@@ -81,21 +84,57 @@ public class Ship : ShipBase
         transform.Rotate(xRot, yRot, 0, Space.Self);
         #endregion
 
-        /******/
-        #region Yaw Mechanic
-        xYawRot = -mouseDistance.y * rotationSpeed / 2;
-        zYawRot = -mouseDistance.x * rotationSpeed * 1.2f;
-        yYawRot = model.transform.localRotation.y;
+        Roll();
 
-        Quaternion rot = Quaternion.Euler(xYawRot, yYawRot, zYawRot);
-         
-        if (!(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
+        if (!isRolling)
         {
-            model.transform.localRotation = Quaternion.Slerp(model.transform.localRotation, rot, yawAcceleration / 15);
+            /******/
+            #region Yaw Mechanic
+            xYawRot = -mouseDistance.y * rotationSpeed / 2;
+            zYawRot = -mouseDistance.x * rotationSpeed * 1.2f;
+            yYawRot = model.transform.localRotation.y;
+
+            Quaternion rot = Quaternion.Euler(xYawRot, yYawRot, zYawRot);
+
+            if (!(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
+            {
+                model.transform.localRotation = Quaternion.Slerp(model.transform.localRotation, rot, yawAcceleration / 15);
+            }
+
+            Quaternion yawRot = Quaternion.Euler(model.transform.localRotation.x, model.transform.localRotation.y, -yawInput * yawRotationSpeed);
+            model.transform.localRotation = Quaternion.Slerp(model.transform.localRotation, yawRot, yawAcceleration / 10);
+            #endregion
+        }
+    }
+
+    public override void Roll()
+    {
+        if (canRoll)
+        {
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Q))
+            {
+                canRoll = false;
+                isRolling = true;
+
+                StartCoroutine(IERoll(rollInput));
+            }
+        }
+    }
+
+    IEnumerator IERoll(float inp)
+    {
+        float coolDown = 0;
+        while (coolDown < 1)
+        {
+            Debug.Log(coolDown);
+            model.transform.Rotate(0, 0, inp * Time.deltaTime * 360);
+            coolDown += Time.deltaTime;
+            yield return null;
         }
 
-        Quaternion yawRot = Quaternion.Euler(model.transform.localRotation.x, model.transform.localRotation.y, -yawInput * yawRotationSpeed);
-        model.transform.localRotation = Quaternion.Slerp(model.transform.localRotation, yawRot, yawAcceleration / 10);
-        #endregion
+        yield return new WaitForSeconds(1f);
+        isRolling = false;
+        yield return new WaitForSeconds(2f);
+        canRoll = true;
     }
 }

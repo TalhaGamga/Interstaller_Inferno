@@ -40,9 +40,8 @@ public abstract class ShipBase : MonoBehaviour
         {
             return;
         }
-
     }
     #endregion
 
-
+    public abstract void Roll();
 }

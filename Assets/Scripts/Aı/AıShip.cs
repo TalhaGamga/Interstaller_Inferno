@@ -154,6 +154,11 @@ public class AıShip : ShipBase
         Gizmos.DrawWireCube(transform.position, new Vector3(1, radarUpSize, radarForwardSize));
        // Physics.OverlapBoxNonAlloc(aiShip.transform.position, new Vector3(1, aiShip.radarUpSize, aiShip.radarForwardSize), hits, Quaternion.identity);
     }
+
+    public override void Roll()
+    {
+        throw new System.NotImplementedException();
+    }
 }
 
 public abstract class StateAı
