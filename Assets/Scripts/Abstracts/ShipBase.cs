@@ -9,8 +9,9 @@ public abstract class ShipBase : MonoBehaviour
     public Vector3 scale;
     public float currentSpeed;
     public ShipBase SourceShip;
-    public float speedMultier=1;
-    public bool isStun,isSlowing;
+    public float speedMultier = 1;
+    public bool isStun, isSlowing;
+    public Queue<RocketBase> rocketBases = new Queue<RocketBase>();
 
     private void Update()
     {
@@ -38,7 +39,7 @@ public abstract class ShipBase : MonoBehaviour
     {
         skillBase.Use(this);
     }
-    public Action moveAction=>Movement;
+    public Action moveAction => Movement;
     public virtual void Movement()
     {
         if (isStun)
@@ -47,5 +48,5 @@ public abstract class ShipBase : MonoBehaviour
         }
 
     }
-    
+
 }
