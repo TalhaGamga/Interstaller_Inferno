@@ -2030,9 +2030,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb8a8652afcc88648a3d55f634bba761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1802789750}
-  backOffSet: 20
-  upOffSet: 3
+  target: {fileID: 1802789751}
+  smoothTime: 0.25
+  offset: {x: 0, y: 3, z: 5}
 --- !u!1 &1028512551
 GameObject:
   m_ObjectHideFlags: 0

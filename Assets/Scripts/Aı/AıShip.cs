@@ -224,8 +224,8 @@ public class ObstacleState : StateAı
             aiShip.MoveDown();
         }
     }
-    
 }
+
 public class FollowState : StateAı
 {
     Transform buffTransform;

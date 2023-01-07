@@ -62,7 +62,7 @@ public class Movement : MonoBehaviour
         transform.Translate((transform.forward * (speed + fireEngineInput * boostedSpeed)) * Time.deltaTime, Space.World);
 
         speed -= transform.forward.y * Time.deltaTime * 50;
-        Debug.Log(speed);
+        
 
         if (speed < 35f)
         {
