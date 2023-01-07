@@ -30,10 +30,10 @@ public class CameraController : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;
 
-    void Update()
+    void LateUpdate()
     {
         // move the camera towards the target by a certain amount each frame
         transform.position = Vector3.SmoothDamp(transform.position, target.position + offset, ref velocity, smoothTime);
-        transform.LookAt(target);   
+        transform.LookAt(target.position + target.transform.forward*200);   
     }
 }

@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class Ship : ShipBase
 {
-
     float brakeInput;
     float fireEngineInput;
     float yawInput;
     float rollInput;
-    //[SerializeField] float speed = 80f;
-    //[SerializeField] float boostedSpeed = 120f;
+
     [SerializeField] float brakeMultier = 50;
     [SerializeField] float rotationSpeed = 50f;
 
@@ -126,13 +124,11 @@ public class Ship : ShipBase
         float coolDown = 0;
         while (coolDown < 1)
         {
-            Debug.Log(coolDown);
             model.transform.Rotate(0, 0, inp * Time.deltaTime * 360);
             coolDown += Time.deltaTime;
             yield return null;
         }
 
-        yield return new WaitForSeconds(1f);
         isRolling = false;
         yield return new WaitForSeconds(2f);
         canRoll = true;

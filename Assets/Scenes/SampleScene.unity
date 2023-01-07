@@ -45398,7 +45398,7 @@ MonoBehaviour:
   speed: 80
   hp: 100
   scale: {x: 0, y: 0, z: 0}
-  currentSpeed: 0
+  normalSpeed: 0
   SourceShip: {fileID: 1802789754}
   speedMultier: 1
   isStun: 0
