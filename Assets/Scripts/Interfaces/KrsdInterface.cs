@@ -7,3 +7,10 @@ public interface IFirable
     void Fire(ShipBase Source);
     void Move(ShipBase Source);
 }
+public enum Move
+{
+    left,
+    right,
+    up,
+    down
+}
