@@ -7,6 +7,7 @@ public class RocketStunner : RocketBase
 {
     public override void Use(ShipBase ship)
     {
+        base.Use(ship);
         Shake(ship, 1, 20, 1, 1);
     }
 

@@ -5,9 +5,14 @@ using UnityEngine;
 public class RocketSlower : RocketBase
 {
 
-    float interval;
+    float interval = 1;
 
-    
+    public override void Use(ShipBase ship)
+    {
+        base.Use(ship);
+        StartCoroutine(IESlowing(interval));
+    }
+
     private IEnumerator IESlowing(float interval)
     {
         float temp = 1;

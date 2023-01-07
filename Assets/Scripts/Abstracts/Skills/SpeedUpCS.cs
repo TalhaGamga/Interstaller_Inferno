@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeedUp : SkillBase
+public class SpeedUpCS : CollectableSkillBase
 {
     public override void Use(ShipBase ship)
     {
@@ -12,8 +12,8 @@ public class SpeedUp : SkillBase
 
     IEnumerator IEChangeSpeed(ShipBase ship)
     {
-        ship.currentSpeed *= 2;
+        ship.normalSpeed *= 2;
         yield return new WaitForSeconds(2);
-        ship.currentSpeed = ship.speed;
+        ship.normalSpeed = ship.speed;
     }
 }
