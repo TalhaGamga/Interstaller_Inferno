@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Slowly : SkillBase
+public class Slowly : CollectableSkillBase
 {
     public Slowly(ShipBase ship)
     {
@@ -15,9 +15,9 @@ public class Slowly : SkillBase
     }
     IEnumerator IEChangeSpeed(ShipBase ship)
     {
-        ship.currentSpeed *= 0.5f;
+        ship.normalSpeed *= 0.5f;
         yield return new WaitForSeconds(2);
-        ship.currentSpeed = ship.speed;
+        ship.normalSpeed = ship.speed;
     }
 
 }

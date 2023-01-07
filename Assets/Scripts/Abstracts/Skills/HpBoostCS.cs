@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthDown : SkillBase
+public class HpBoostCS : CollectableSkillBase
 {
 
     public override void Use(ShipBase ship)
     {
 
-        ship.hp -= 40;
+        ship.hp += 40;//todo
 
     }
 

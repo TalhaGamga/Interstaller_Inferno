@@ -8,12 +8,14 @@ public abstract class RocketBase : MonoBehaviour/*, IFirable*/
 
     public virtual void Fire()
     {
-
+        transform.parent = null;
+        transform.position = transform.forward * 8;//todo
+        //todo delete
     }
 
     public virtual void Use(ShipBase ship)
     {
-        ship.TakeDamage(damage);
+        ship.hp -= damage;//todo
     }
 
     public virtual void Move(ShipBase Source)
@@ -21,10 +23,14 @@ public abstract class RocketBase : MonoBehaviour/*, IFirable*/
         throw new System.NotImplementedException();// Talha
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (TryGetComponent(out ShipBase shipBase))
+        if (other.gameObject.TryGetComponent(out ShipBase shipBase))
         {
+
+            Use(shipBase);
+            //todo ??
+
         }
     }
 }
