@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class Movement : MonoBehaviour
 {
     float brakeInput;
@@ -20,7 +20,6 @@ public class Movement : MonoBehaviour
 
     Vector2 lookInput, screenCenter, mouseDistance;
 
-
     float xRot;
     float yRot;
     float zRot;
@@ -36,7 +35,6 @@ public class Movement : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Confined;
     }
-
     void Update()
     {
         Move();
