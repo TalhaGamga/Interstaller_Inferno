@@ -33,12 +33,14 @@ public class AıShip : ShipBase
 
     }
 }
+
 public abstract class StateAı
 {
     public abstract void EnterState(AıShip aıShip);
 
     public abstract void UpdateState(AıShip aıShip);
 }
+
 public class FireState : StateAı
 {
     public override void EnterState(AıShip aıShip)
@@ -50,6 +52,7 @@ public class FireState : StateAı
         
     }
 }
+
 public class FightState : StateAı
 {
     public override void EnterState(AıShip aıShip)
