@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public abstract class ShipBase : MonoBehaviour
 {
     public float speed;
@@ -12,6 +12,10 @@ public abstract class ShipBase : MonoBehaviour
     public float speedMultier=1;
     public bool isStun,isSlowing;
 
+    private void Update()
+    {
+        moveAction?.Invoke();
+    }
     public virtual void TakeDamage(float Damage)
     {
 
@@ -32,8 +36,9 @@ public abstract class ShipBase : MonoBehaviour
     }
     public virtual void Skill(SkillBase skillBase)
     {
-        skillBase.Use(SourceShip);
+        skillBase.Use(this);
     }
+    public Action moveAction=>Movement;
     public virtual void Movement()
     {
         if (isStun)
