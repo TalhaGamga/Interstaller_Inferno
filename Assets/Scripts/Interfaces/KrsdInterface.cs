@@ -14,3 +14,7 @@ public enum Move
     up,
     down
 }
+public interface IObstacle
+{
+
+}
