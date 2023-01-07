@@ -57,9 +57,6 @@ public class Ship : ShipBase
         #region Translation
         transform.Translate((transform.forward * (speed + fireEngineInput * (1.5f * speed))) * Time.deltaTime, Space.World);
 
-        //speed -= transform.forward.y * Time.deltaTime * 50;
-
-
         if (speed < 35f)
         {
             speed = 35f;

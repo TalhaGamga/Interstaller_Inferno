@@ -18,11 +18,6 @@ public abstract class RocketBase : MonoBehaviour/*, IFirable*/
         ship.hp -= damage;//todo
     }
 
-    public virtual void Move(ShipBase Source)
-    {
-        throw new System.NotImplementedException();// Talha
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent(out ShipBase shipBase))
