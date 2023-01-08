@@ -5,7 +5,8 @@ using UnityEngine;
 public abstract class RocketBase : MonoBehaviour/*, IFirable*/
 {
     public float damage;
-    public virtual void Fire()
+    public bool isAdding=false;
+    public virtual void Fire(ShipBase ship)
     {
         transform.parent = null;
         transform.position = transform.forward * 8;//todo

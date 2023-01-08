@@ -29,6 +29,8 @@ public class Ship : ShipBase
 
     bool isRolling = false;
     bool canRoll = true;
+
+    public Collider[] hits=new Collider[20];
     void Start()
     {
         screenCenter.x = Screen.width / 2;
@@ -36,7 +38,36 @@ public class Ship : ShipBase
 
         Cursor.lockState = CursorLockMode.Confined;
     }
+    private void OnEnable()
+    {
+        EventManager.onFireAction += Fire;
+    }
+    private void OnDisable()
+    {
+        EventManager.onFireAction -= Fire;
+    }
+    public void Fire()
+    {
+        ShipBase shipBase=this;
+        float temp;
+        float maxSize = float.MaxValue;
+        int hitSize = Physics.OverlapSphereNonAlloc(transform.position,50f,hits,LayerMask.NameToLayer("Enemy"));
+        if (hitSize == 0)
+        {
+            return;//en öndeki objeye doðru git
+        }
+        for (int i = 0; i < hitSize; i++)
+        {
+            temp = Vector3.Distance(transform.position, hits[i].transform.position);
+            if (maxSize < temp)
+            {
+                maxSize = temp;
+                shipBase = hits[i].GetComponent<ShipBase>();
+            }
+        }
+        shipManager.onFireAction.Invoke(shipBase);
 
+    }
     public override void Movement()
     {
         #region Inputs
@@ -67,7 +98,7 @@ public class Ship : ShipBase
             {
                 speed -= 50 * Time.deltaTime;
             }
-             
+
             if (Input.GetKeyUp(KeyCode.S))
             {
                 speed = 80f;
@@ -131,4 +162,6 @@ public class Ship : ShipBase
         yield return new WaitForSeconds(2f);
         canRoll = true;
     }
+
+
 }

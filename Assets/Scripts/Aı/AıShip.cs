@@ -169,9 +169,9 @@ public abstract class StateAı
 
 public class FireState : StateAı//tartışmalı
 {
-    public override void EnterState(AıShip aiShip)
+    public override void EnterState(AıShip aiShipSource)
     {
-
+        aiShipSource.shipManager.onFireAction.Invoke(aiShipSource);
     }
     public override void UpdateState(AıShip aiShip)
     {
