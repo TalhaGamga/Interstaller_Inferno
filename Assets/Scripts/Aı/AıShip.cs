@@ -114,8 +114,11 @@ public class AıShip : ShipBase
     }
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("triggered");
         if (other.gameObject.TryGetComponent(out Port port))
         {
+            Debug.Log("port");
+
             ports.Remove(port.transform);
         }
         if (other.gameObject.TryGetComponent(out IObstacle obstacle))
@@ -150,7 +153,7 @@ public class AıShip : ShipBase
     public List<Action> MoveActions(Vector3 ship, Transform target)
     {
         Vector3 yon = new Vector3(0, 0, 0);
-        Debug.Log("moveActions");
+        //Debug.Log("moveActions");
         moveActions.Clear();
         float left, right, up, down;
         left = Vector3.Distance(transform.position, target.position - target.right);
@@ -199,7 +202,22 @@ public class AıShip : ShipBase
     {
         throw new System.NotImplementedException();
     }
-
+    public override void FireTimer()
+    {
+        base.FireTimer();
+        StartCoroutine(IEFireTimer());
+    }
+    IEnumerator IEFireTimer()
+    {
+        yield return new WaitForSeconds(1.3f);
+        float timer = 7f;
+        while (timer>0)
+        {
+            fireState.UpdateState(this);
+            timer -= Time.deltaTime;
+            yield return null;
+        }
+    } 
 }
 
 public abstract class StateAı
@@ -228,7 +246,7 @@ public class FireState : StateAı//tartışmalı
         else
         {
             atackTimer = 1f;
-            hitSize = Physics.OverlapBoxNonAlloc(aiShip.transform.position + aiShip.transform.forward * 50, new Vector3(200, 200, 300), hits, Quaternion.identity, aiShip.skillLayer);
+            hitSize = Physics.OverlapSphereNonAlloc(aiShip.transform.position,75f, hits, aiShip.skillLayer);
             if (hitSize>0)
             {
                 for (int i = 0; i < hits.Length; i++)
@@ -243,11 +261,12 @@ public class FireState : StateAı//tartışmalı
                         }
                     }
                 }
-                aiShip.shipManager.onFireAction.Invoke(sourceShip);
+                aiShip.shipManager.OnRocketLaunching.Invoke(sourceShip);
             }
         }
 
     }
+
 }
 
 public class ObstacleState : StateAı
@@ -277,7 +296,6 @@ public class FollowState : StateAı
     }
     public override void UpdateState(AıShip aiShip)
     {
-        Debug.Log("follow update");
         aiShip.transform.position += aiShip.transform.forward * Time.deltaTime * aiShip.multiple * aiShip.speed;
         Follow(aiShip, ClosestBuff(aiShip));
     }
@@ -307,13 +325,12 @@ public class FollowState : StateAı
     }
     private void Follow(AıShip aiShip, Transform followTransform)
     {
-        Debug.Log(followTransform);
+        //Debug.Log(followTransform);
         if (Physics.Raycast(aiShip.transform.position, aiShip.transform.forward, out RaycastHit hit))
         {
             if (hit.transform == followTransform)
             {
-                // aiShip.SetRotate();
-                Debug.Log("kitlendi");
+
                 return;
             }
         }

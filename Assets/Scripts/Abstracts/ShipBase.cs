@@ -19,7 +19,7 @@ public abstract class ShipBase : MonoBehaviour
         rocketLauncher = GetComponent<RocketLauncher>();
         normalSpeed = speed;
     }
-    private void Update()
+    protected virtual void Update()
     {
         Movement();
     }
@@ -46,7 +46,10 @@ public abstract class ShipBase : MonoBehaviour
     {
         StartCoroutine(IEStun());
     }
+    public virtual void FireTimer()
+    {
 
+    }
     IEnumerator IEStun()
     {
         isStunned = true;

@@ -40,14 +40,16 @@ public class Ship : ShipBase
 
         Cursor.lockState = CursorLockMode.Confined;
     }
-    private void OnEnable()
+
+    protected override void Update()
     {
-        EventManager.onFireAction += Fire;
+        Movement();
+        if (Input.GetMouseButtonDown(0))
+        {
+            Fire();
+        }
     }
-    private void OnDisable()
-    {
-        EventManager.onFireAction -= Fire;
-    }
+    /*INPUTS TODO   */
     public void Fire()
     {
         ShipBase shipBase=this;
@@ -67,11 +69,10 @@ public class Ship : ShipBase
                 if(hits[i].TryGetComponent(out ShipBase ship))
                 {
                     shipBase = ship;
+                    shipManager.OnRocketLaunching.Invoke(shipBase);
                 }
             }
         }
-        shipManager.onFireAction.Invoke(shipBase);
-
     }
     public override void Movement()
     {
