@@ -13,7 +13,7 @@ public class AıShip : ShipBase
     public float multiple = 10.0f;
     Vector3 planePos;
     private float rotationSpeed;
-
+    public bool isEnd;
     public LayerMask PlayerLayer;
     public float RotationSpeed
     {
@@ -56,6 +56,10 @@ public class AıShip : ShipBase
     }
     protected override void Update()
     {
+        if (isEnd)
+        {
+            return;
+        }
         if (isStunned || isForce)
         {
             return;
@@ -278,12 +282,17 @@ public class FollowState : StateAı
     Collider[] hits = new Collider[50];
     int hitSize;
     float maxSize = float.MaxValue, temp;
+    bool isNull = false;
     public override void EnterState(AıShip aiShip)
     {
         aiShip.RotationSpeed = 0;
     }
     public override void UpdateState(AıShip aiShip)
     {
+        if (isNull)
+        {
+            return;
+        }
         aiShip.transform.position += aiShip.transform.forward * Time.deltaTime * aiShip.multiple * aiShip.speed;
         Follow(aiShip, ClosestBuff(aiShip));
     }
@@ -296,6 +305,7 @@ public class FollowState : StateAı
         {
             if (aiShip.ports.Count == 0)
             {
+                aiShip.isEnd = true;
                 return null;//finish
             }
             return aiShip.ports[0];

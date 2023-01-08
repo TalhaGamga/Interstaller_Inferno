@@ -23,7 +23,6 @@ public class RocketPacket : MonoBehaviour
                     Debug.Log("Add çalýþtýrýldý");
                 }
             }
-
             Destroy(gameObject);
         }
     }
