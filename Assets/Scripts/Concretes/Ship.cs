@@ -57,20 +57,21 @@ public class Ship : ShipBase
         #region Translation
         transform.Translate((transform.forward * (speed + fireEngineInput * (1.5f * speed))) * Time.deltaTime, Space.World);
 
-        if (speed < 35f)
+        if (Input.GetKey(KeyCode.S) && !isStunned)
         {
-            speed = 35f;
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-
-            speed -= 50 * Time.deltaTime;
-        }
-
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            speed = 80f;
+            if (speed < 35f)
+            {
+                speed = 35f;
+            }
+            else
+            {
+                speed -= 50 * Time.deltaTime;
+            }
+             
+            if (Input.GetKeyUp(KeyCode.S))
+            {
+                speed = 80f;
+            }
         }
 
         xRot = -mouseDistance.y * rotationSpeed * Time.deltaTime;

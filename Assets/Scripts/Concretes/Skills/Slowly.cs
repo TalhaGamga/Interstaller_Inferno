@@ -15,9 +15,9 @@ public class Slowly : CollectableSkillBase
     }
     IEnumerator IEChangeSpeed(ShipBase ship)
     {
-        ship.normalSpeed *= 0.5f;
+        ship.speed *= 0.5f;
         yield return new WaitForSeconds(2);
-        ship.normalSpeed = ship.speed;
+        ship.speed= ship.normalSpeed;
     }
 
 }

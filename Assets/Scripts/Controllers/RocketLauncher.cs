@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class RocketLauncher : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Queue<RocketBase> rockets = new Queue<RocketBase>();
+    public void Add(RocketBase rocket)
     {
-        
+        rockets.Enqueue(rocket);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Fire(ShipBase ship)
     {
-        
+        if (rockets.Count>0)
+        {
+            RocketBase rocket = rockets.Dequeue();
+        }
     }
+
+
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 public abstract class RocketBase : MonoBehaviour/*, IFirable*/
 {
     public float damage;
-
     public virtual void Fire()
     {
         transform.parent = null;
@@ -18,7 +17,7 @@ public abstract class RocketBase : MonoBehaviour/*, IFirable*/
         ship.hp -= damage;//todo
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //Roket shipe çarptýðýnda
     {
         if (other.gameObject.TryGetComponent(out ShipBase shipBase))
         {
