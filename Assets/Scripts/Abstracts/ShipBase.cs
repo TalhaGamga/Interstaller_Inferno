@@ -19,7 +19,7 @@ public abstract class ShipBase : MonoBehaviour
         rocketLauncher = GetComponent<RocketLauncher>();
         normalSpeed = speed;
     }
-    private void Update()
+    protected virtual void Update()
     {
         Movement();
     }

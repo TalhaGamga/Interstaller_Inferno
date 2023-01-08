@@ -12,7 +12,7 @@ public class SpeedUpCS : CollectableSkillBase
 
     IEnumerator IEChangeSpeed(ShipBase ship)
     {
-        Debug.Log("Sped Up");
+        //Debug.Log("Sped Up");
         ship.speed *= 2;
         yield return new WaitForSeconds(5);
         ship.speed = ship.normalSpeed;

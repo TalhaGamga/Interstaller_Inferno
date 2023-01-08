@@ -10,23 +10,28 @@ public class RocketLauncher : MonoBehaviour// sadece 1 tane olacak
     Queue<RocketBase> rockets = new Queue<RocketBase>();
     private void OnEnable()
     {
-        shipManager.onFireAction += Fire;
+        shipManager.OnRocketLaunching += Fire;
 
     }
     private void OnDisable()
     {
-        shipManager.onFireAction -= Fire;
+        shipManager.OnRocketLaunching -= Fire;
     }
- 
-    public void Add(RocketBase rocket)
-    {
-        if (!rocket.isAdded)
-        {
-            rockets.Enqueue(rocket);
-            rocket.transform.DOLocalJump(transform.position, 2f, 1, 1f).OnStepComplete(()=> rocket.gameObject.SetActive(true));
-            rocket.isAdded = true;
-        }
 
+    public bool Add(RocketBase rocket)
+    {
+        if (rockets.Count <= 3)
+        {
+            if (!rocket.isAdded)
+            {
+                Instantiate(rocket).gameObject.SetActive(false);
+                rockets.Enqueue(rocket);
+                rocket.transform.DOLocalJump(transform.position, 2f, 1, 1f).OnStepComplete(() => rocket.gameObject.SetActive(true));
+                rocket.isAdded = true;
+                return true;
+            }
+        }
+        return false;
     }
 
     public void Fire(ShipBase sourceShip)
@@ -36,11 +41,11 @@ public class RocketLauncher : MonoBehaviour// sadece 1 tane olacak
             RocketBase rocket = rockets.Dequeue();
             rocket.gameObject.SetActive(true);
             int x = slots.Count;
-            int randomValue = Random.Range(0, x);      
+            int randomValue = Random.Range(0, x);
             rocket.transform.SetParent(slots[randomValue]);
             rocket.transform.localPosition = Vector3.zero;
-            rocket.transform.DOLocalMoveZ(2f, .4f).OnStepComplete(()=> { rocket.Fire(sourceShip); });
-           
+            rocket.transform.DOLocalMoveZ(2f, .4f).OnStepComplete(() => { rocket.Fire(sourceShip); });
+
         }
     }
 

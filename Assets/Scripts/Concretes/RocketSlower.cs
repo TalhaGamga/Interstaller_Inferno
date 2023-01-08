@@ -9,4 +9,9 @@ public class RocketSlower : RocketBase
         base.Use(ship);
         ship.Slowing();
     }
+    public override void Fire(ShipBase ship)
+    {
+        transform.SetParent(null);
+        FollowingFire(ship.transform);
+    }
 }

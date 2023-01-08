@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class RocketBase : MonoBehaviour/*, IFirable*/
@@ -10,7 +9,8 @@ public abstract class RocketBase : MonoBehaviour/*, IFirable*/
     [SerializeField] private float rocketSpeed = 50;
     public virtual void Fire(ShipBase ship)
     {
-        Shot();
+        transform.SetParent(null);
+        //Shot();
     }
     public virtual void Use(ShipBase ship)
     {
@@ -29,7 +29,7 @@ public abstract class RocketBase : MonoBehaviour/*, IFirable*/
         }
     }
 
-    public virtual void Follow(Transform target)
+    public virtual void FollowingFire(Transform target)
     {
         StartCoroutine(IEFollow(target));
     }
@@ -50,7 +50,7 @@ public abstract class RocketBase : MonoBehaviour/*, IFirable*/
         Destroy(gameObject);
     }
 
-    public virtual void Shot()
+    public virtual void ShootingFire()
     {
         StartCoroutine(IERocketShot());
     }
