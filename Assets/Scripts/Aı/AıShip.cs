@@ -131,6 +131,13 @@ public class AıShip : ShipBase
             SwitchState(followState);
         }
     }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out AıShip shipBase))
+        {
+            shipBase.MoveRight();
+        }
+    }
     public List<Action> moveActions = new List<Action>();
     public List<Action> MoveActions(Vector3 ship, Transform target)
     {
