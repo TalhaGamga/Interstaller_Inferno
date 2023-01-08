@@ -11,6 +11,8 @@ public class RocketSlower : RocketBase
     }
     public override void Fire(ShipBase ship)
     {
+        Debug.Log("Slower Rocket Fired");
+
         transform.SetParent(null);
         FollowingFire(ship.transform);
     }

@@ -18,7 +18,7 @@ public class Ship : ShipBase
     [SerializeField] GameObject model;
 
     Vector2 lookInput, screenCenter, mouseDistance;
-
+    [SerializeField] LayerMask layer;
     float xRot;
     float yRot;
     float zRot;
@@ -33,6 +33,14 @@ public class Ship : ShipBase
     public Collider[] hits = new Collider[20];
 
     [SerializeField] private Camera main;
+
+    [SerializeField] RocketLauncher shipRocketLauncher;
+
+    [SerializeField] RocketBase rocket;
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, 100);
+    }
     void Start()
     {
         screenCenter.x = Screen.width / 2;
@@ -44,6 +52,7 @@ public class Ship : ShipBase
     protected override void Update()
     {
         Movement();
+
         if (Input.GetMouseButtonDown(0))
         {
             Fire();
@@ -52,10 +61,11 @@ public class Ship : ShipBase
     /*INPUTS TODO   */
     public void Fire()
     {
-        ShipBase shipBase=this;
+        ShipBase shipBase =this;
         float temp;
         float maxSize = float.MaxValue;
-        int hitSize = Physics.OverlapSphereNonAlloc(transform.position,50f,hits,LayerMask.NameToLayer("Enemy"));
+        int hitSize = Physics.OverlapSphereNonAlloc(transform.position,100f,hits,layer);
+        Debug.Log(hitSize);
         if (hitSize == 0)
         {
             return;//en öndeki objeye doðru git
@@ -74,6 +84,7 @@ public class Ship : ShipBase
             }
         }
     }
+
     public override void Movement()
     {
         #region Inputs

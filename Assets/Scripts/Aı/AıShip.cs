@@ -114,11 +114,8 @@ public class AıShip : ShipBase
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("triggered");
         if (other.gameObject.TryGetComponent(out Port port))
         {
-            Debug.Log("port");
-
             ports.Remove(port.transform);
         }
         if (other.gameObject.TryGetComponent(out IObstacle obstacle))

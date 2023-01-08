@@ -8,12 +8,14 @@ public class RocketPacket : MonoBehaviour
     RocketBase _rocket;
     private void OnCollisionEnter(Collision collision)
     {
+
         if (collision.gameObject.TryGetComponent<ShipBase>(out ShipBase ship))
         {
-            _rocket = rocket;
-
+            Debug.Log("Collided");
+            _rocket = Instantiate(rocket);
             if (ship.GetComponent<RocketLauncher>().Add(_rocket))
             {
+                Debug.Log("Add çalýþtýrýldý");
                 Destroy(gameObject);
             }
         }
