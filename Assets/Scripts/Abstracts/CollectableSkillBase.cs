@@ -4,11 +4,11 @@ using UnityEngine;
 using DG.Tweening;
 public abstract class CollectableSkillBase : MonoBehaviour
 {
-    public virtual void Use(ShipBase ship)
+    public virtual Tween Use(ShipBase ship)
     {
-
+        transform.SetParent(ship.transform);
+     return transform.DOLocalJump(Vector3.zero, 1f, 1, .5f);
         //todo destroy
-
     }
 
     private void OnTriggerEnter(Collider other)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 public class Slowly : CollectableSkillBase
 {
     public Slowly(ShipBase ship)
@@ -9,9 +10,9 @@ public class Slowly : CollectableSkillBase
     }
 
 
-    public override void Use(ShipBase ship)
+    public override Tween Use(ShipBase ship)
     {
-        StartCoroutine(IEChangeSpeed(ship));
+   return  base.Use(ship).OnStepComplete( ()=>StartCoroutine(IEChangeSpeed(ship)));
     }
     IEnumerator IEChangeSpeed(ShipBase ship)
     {

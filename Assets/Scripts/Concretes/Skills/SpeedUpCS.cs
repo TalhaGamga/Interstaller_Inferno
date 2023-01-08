@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class SpeedUpCS : CollectableSkillBase
 {
-    public override void Use(ShipBase ship)
+    public override Tween Use(ShipBase ship)
     {
-        StartCoroutine(IEChangeSpeed(ship));
+        return base.Use(ship).OnStepComplete(() => { StartCoroutine(IEChangeSpeed(ship)); });
     }
 
     IEnumerator IEChangeSpeed(ShipBase ship)

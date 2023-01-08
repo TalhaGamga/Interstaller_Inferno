@@ -5,8 +5,9 @@ using UnityEngine;
 public class RocketCS : CollectableSkillBase
 {
 
-    public override void Use(ShipBase ship)
+    public override Tween Use(ShipBase ship)
     {
+        return base.Use(ship);
     }
 
 }
