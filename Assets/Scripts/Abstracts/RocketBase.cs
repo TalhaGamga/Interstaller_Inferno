@@ -10,7 +10,7 @@ public abstract class RocketBase : MonoBehaviour/*, IFirable*/
     [SerializeField] private float rocketSpeed = 50;
     private void Start()
     {
-        Shot();
+        //Shot();
     }
     public virtual void Fire(ShipBase ship)
     {
