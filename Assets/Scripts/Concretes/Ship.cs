@@ -30,7 +30,9 @@ public class Ship : ShipBase
     bool isRolling = false;
     bool canRoll = true;
 
-    public Collider[] hits=new Collider[20];
+    public Collider[] hits = new Collider[20];
+
+    [SerializeField] private Camera main;
     void Start()
     {
         screenCenter.x = Screen.width / 2;
@@ -101,11 +103,12 @@ public class Ship : ShipBase
             {
                 speed -= 50 * Time.deltaTime;
             }
+        }
 
-            if (Input.GetKeyUp(KeyCode.S))
-            {
-                speed = 80f;
-            }
+
+        if (Input.GetKeyUp(KeyCode.S) && !isStunned)
+        {
+            speed = 80f;
         }
 
         xRot = -mouseDistance.y * rotationSpeed * Time.deltaTime;
@@ -173,6 +176,6 @@ public class Ship : ShipBase
     }
     public void Shake(float duration, float strength, int vibrato, float randomness)
     {
-        Camera.main.transform.DOShakePosition(duration, strength, vibrato, randomness);
+        main.transform.DOShakePosition(duration, strength, vibrato, randomness);
     }
 }
