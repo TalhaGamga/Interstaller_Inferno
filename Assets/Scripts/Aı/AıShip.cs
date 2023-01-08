@@ -199,7 +199,22 @@ public class AıShip : ShipBase
     {
         throw new System.NotImplementedException();
     }
-
+    public override void FireTimer()
+    {
+        base.FireTimer();
+        StartCoroutine(IEFireTimer());
+    }
+    IEnumerator IEFireTimer()
+    {
+        yield return new WaitForSeconds(1.3f);
+        float timer = 7f;
+        while (timer>0)
+        {
+            fireState.UpdateState(this);
+            timer -= Time.deltaTime;
+            yield return null;
+        }
+    } 
 }
 
 public abstract class StateAı
@@ -228,7 +243,7 @@ public class FireState : StateAı//tartışmalı
         else
         {
             atackTimer = 1f;
-            hitSize = Physics.OverlapBoxNonAlloc(aiShip.transform.position + aiShip.transform.forward * 50, new Vector3(200, 200, 300), hits, Quaternion.identity, aiShip.skillLayer);
+            hitSize = Physics.OverlapSphereNonAlloc(aiShip.transform.position,75f, hits, aiShip.skillLayer);
             if (hitSize>0)
             {
                 for (int i = 0; i < hits.Length; i++)
@@ -248,6 +263,7 @@ public class FireState : StateAı//tartışmalı
         }
 
     }
+
 }
 
 public class ObstacleState : StateAı
@@ -277,7 +293,6 @@ public class FollowState : StateAı
     }
     public override void UpdateState(AıShip aiShip)
     {
-        Debug.Log("follow update");
         aiShip.transform.position += aiShip.transform.forward * Time.deltaTime * aiShip.multiple * aiShip.speed;
         Follow(aiShip, ClosestBuff(aiShip));
     }
@@ -312,8 +327,7 @@ public class FollowState : StateAı
         {
             if (hit.transform == followTransform)
             {
-                // aiShip.SetRotate();
-                Debug.Log("kitlendi");
+
                 return;
             }
         }

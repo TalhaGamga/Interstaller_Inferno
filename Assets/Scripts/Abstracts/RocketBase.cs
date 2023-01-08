@@ -17,14 +17,13 @@ public abstract class RocketBase : MonoBehaviour/*, IFirable*/
     {
         gameObject.layer = 0;
         ship.hp -= damage;//todo
+        ship.FireTimer();
     }
     protected virtual void OnTriggerEnter(Collider other) //Roket shipe çarptýðýnda
     {
         if (other.gameObject.TryGetComponent(out ShipBase shipBase))
         {
-
             Use(shipBase);
-
         }
     }
 }

@@ -46,7 +46,10 @@ public abstract class ShipBase : MonoBehaviour
     {
         StartCoroutine(IEStun());
     }
+    public virtual void FireTimer()
+    {
 
+    }
     IEnumerator IEStun()
     {
         isStunned = true;
