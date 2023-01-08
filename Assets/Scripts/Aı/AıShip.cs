@@ -238,6 +238,8 @@ public class FireState : StateAı//tartışmalı
     }
     public override void UpdateState(AıShip aiShip)
     {
+        sourceShip = EventManager.player;
+        Debug.Log("ateş edildi " + sourceShip.name);
         if (atackTimer > 0)
         {
             atackTimer -= Time.deltaTime;
@@ -245,24 +247,10 @@ public class FireState : StateAı//tartışmalı
         else
         {
             atackTimer = 1f;
-            hitSize = Physics.OverlapSphereNonAlloc(aiShip.transform.position, 750f, hits, aiShip.PlayerLayer);
-            if (hitSize > 0)
-            {
-                for (int i = 0; i < hits.Length; i++)
-                {
-
-                    temp = Vector3.Distance(aiShip.transform.position, hits[i].transform.position);
-                    if (temp < maxSize)
-                    {
-                        maxSize = temp;
-                        if (hits[i].TryGetComponent(out ShipBase shipBase))
-                        {
-                            sourceShip = shipBase;
-                        }
-                    }
-                }
-                aiShip.shipManager.OnRocketLaunching.Invoke(sourceShip);
-            }
+           
+            Debug.Log("ateş edildi " + sourceShip.name);
+           aiShip.shipManager.OnRocketLaunching.Invoke(sourceShip);
+            
         }
 
     }

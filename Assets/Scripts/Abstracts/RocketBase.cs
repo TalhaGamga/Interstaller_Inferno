@@ -35,7 +35,7 @@ public abstract class RocketBase : MonoBehaviour/*, IFirable*/
                 Debug.Log("Gelen : " + gelen);
                 return;
             }
-
+            
             Debug.Log("Rocket Triggered ");
 
             Use(shipBase);

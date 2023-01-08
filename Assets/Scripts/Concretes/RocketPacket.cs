@@ -14,8 +14,10 @@ public class RocketPacket : MonoBehaviour
             for (int i = 0; i < 3; i++)
             {
                 Debug.Log("Collided");
+                ship.FireTimer();
                 _rocket = Instantiate(rocket);
                 gameObject.layer = 0;
+
                 if (ship.GetComponent<RocketLauncher>().Add(_rocket))
                 {
                     Debug.Log("Add çalýþtýrýldý");

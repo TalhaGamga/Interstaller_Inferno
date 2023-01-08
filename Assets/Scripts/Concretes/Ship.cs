@@ -45,6 +45,7 @@ public class Ship : ShipBase
     }
     void Start()
     {
+        EventManager.player = this;
         screenCenter.x = Screen.width / 2;
         screenCenter.y = Screen.height / 2;
 

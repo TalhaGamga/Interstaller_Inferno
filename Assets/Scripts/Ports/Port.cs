@@ -4,4 +4,12 @@ using UnityEngine;
 
 public class Port : MonoBehaviour
 {
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out AıShip aıShip))
+        {
+            if (aıShip.ports.Contains(transform))
+                aıShip.ports.Remove(transform);
+        }
+    }
 }
