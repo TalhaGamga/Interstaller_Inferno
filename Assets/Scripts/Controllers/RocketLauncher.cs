@@ -20,10 +20,11 @@ public class RocketLauncher : MonoBehaviour// sadece 1 tane olacak
  
     public void Add(RocketBase rocket)
     {
-        if (!rocket.isAdding)
+        if (!rocket.isAdded)
         {
             rockets.Enqueue(rocket);
             rocket.transform.DOLocalJump(transform.position, 2f, 1, 1f).OnStepComplete(()=> rocket.gameObject.SetActive(true));
+            rocket.isAdded = true;
         }
 
     }

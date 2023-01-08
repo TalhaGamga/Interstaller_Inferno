@@ -5,18 +5,18 @@ using UnityEngine;
 public abstract class RocketBase : MonoBehaviour/*, IFirable*/
 {
     public float damage;
-    public bool isAdding=false;
+    public bool isAdded = false;
+
+    [SerializeField] private float rocketSpeed = 50;
     public virtual void Fire(ShipBase ship)
     {
-        transform.parent = null;
-        transform.position = transform.forward * 8;//todo
-        //todo delete
+        Shot();
     }
-
     public virtual void Use(ShipBase ship)
     {
         gameObject.layer = 0;
         ship.hp -= damage;//todo
+
         ship.FireTimer();
     }
     protected virtual void OnTriggerEnter(Collider other) //Roket shipe çarptýðýnda
@@ -24,6 +24,47 @@ public abstract class RocketBase : MonoBehaviour/*, IFirable*/
         if (other.gameObject.TryGetComponent(out ShipBase shipBase))
         {
             Use(shipBase);
+
+            Destroy(gameObject);
         }
+    }
+
+    public virtual void Follow(Transform target)
+    {
+        StartCoroutine(IEFollow(target));
+    }
+
+    public IEnumerator IEFollow(Transform target)
+    {
+        float timer = 0;
+        while (timer < 20)
+        {
+            timer += Time.deltaTime;
+            Vector3 direction = (target.transform.position - transform.position).normalized;
+            Quaternion targetRot = Quaternion.LookRotation(target.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 1.5f * Time.deltaTime);
+            transform.position += transform.forward * rocketSpeed * Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(gameObject);
+    }
+
+    public virtual void Shot()
+    {
+        StartCoroutine(IERocketShot());
+    }
+
+    IEnumerator IERocketShot()
+    {
+        float timer = 0;
+        while (timer < 3)
+        {
+            timer += Time.deltaTime;
+            transform.position += transform.forward * rocketSpeed * Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(gameObject);
     }
 }
