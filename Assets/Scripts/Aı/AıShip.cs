@@ -104,7 +104,7 @@ public class AıShip : ShipBase
     {
         Vector3 _direction = target.position - source.transform.position;
         Quaternion _lookRotation = Quaternion.LookRotation(_direction);
-        source.transform.rotation = Quaternion.Slerp(source.transform.rotation, _lookRotation, multiple * Time.deltaTime);
+        source.transform.rotation = Quaternion.Slerp(source.transform.rotation, _lookRotation, multiple*.3f * Time.deltaTime);
     }
     public void LookAt(Transform source, Vector3 target)
     {
@@ -195,10 +195,14 @@ public abstract class StateAı
 
 public class FireState : StateAı//tartışmalı
 {
+    float temp,maxSize=float.MaxValue;
+    Collider[] hits = new Collider[50];
     float atackTimer = 1f;
+    int hitSize;
+    ShipBase sourceShip;
     public override void EnterState(AıShip aiShipSource)
     {
-        aiShipSource.shipManager.onFireAction.Invoke(aiShipSource);
+     //   aiShipSource.shipManager.onFireAction.Invoke(aiShipSource);
     }
     public override void UpdateState(AıShip aiShip)
     {
@@ -209,6 +213,23 @@ public class FireState : StateAı//tartışmalı
         else
         {
             atackTimer = 1f;
+            hitSize = Physics.OverlapBoxNonAlloc(aiShip.transform.position + aiShip.transform.forward * 50, new Vector3(200, 200, 300), hits, Quaternion.identity, aiShip.skillLayer);
+            if (hitSize>0)
+            {
+                for (int i = 0; i < hits.Length; i++)
+                {
+                    temp = Vector3.Distance(aiShip.transform.position, hits[i].transform.position);
+                    if (temp < maxSize)
+                    {
+                        maxSize = temp;
+                        if (hits[i].TryGetComponent(out ShipBase shipBase))
+                        {
+                            sourceShip = shipBase;
+                        }
+                    }
+                }
+                aiShip.shipManager.onFireAction.Invoke(sourceShip);
+            }
         }
 
     }
