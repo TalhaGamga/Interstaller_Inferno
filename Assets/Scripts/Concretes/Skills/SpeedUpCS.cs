@@ -7,7 +7,9 @@ public class SpeedUpCS : CollectableSkillBase
 {
     public override Tween Use(ShipBase ship)
     {
-        return base.Use(ship).OnStepComplete(() => { StartCoroutine(IEChangeSpeed(ship)); });
+
+        StartCoroutine(IEChangeSpeed(ship));
+        return base.Use(ship);
     }
 
     IEnumerator IEChangeSpeed(ShipBase ship)

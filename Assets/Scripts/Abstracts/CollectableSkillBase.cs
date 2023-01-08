@@ -5,17 +5,21 @@ using DG.Tweening;
 public abstract class CollectableSkillBase : MonoBehaviour
 {
     bool istriger = false;
-    MeshRenderer meshRenderer;
-    private void Start()
-    {
-        meshRenderer = GetComponent<MeshRenderer>();
-    }
+    [SerializeField] GameObject obj;
+    //private void Start()
+    //{
+    //    meshRenderer = GetComponent<MeshRenderer>();
+    //}
+
+    Sequence sq;
 
     public virtual Tween Use(ShipBase ship)
     {
-        gameObject.layer = 0;
+        sq = DOTween.Sequence();
+
         transform.SetParent(ship.transform);
-        return transform.DOLocalJump(Vector3.zero, 1f, 1, .5f).OnComplete(() => meshRenderer.enabled = false);
+        gameObject.layer = 0;
+        return sq.Append(transform.DOJump(Vector3.zero, 1f, 1, .5f)).Join(transform.DOScale(Vector3.one * .1f, .3f)).OnComplete(() => obj.SetActive(false));
     }
 
     private void OnTriggerEnter(Collider other)

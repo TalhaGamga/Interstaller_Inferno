@@ -13,6 +13,8 @@ public class AıShip : ShipBase
     public float multiple = 10.0f;
     Vector3 planePos;
     private float rotationSpeed;
+
+    public LayerMask PlayerLayer;
     public float RotationSpeed
     {
         get => rotationSpeed; set
@@ -52,7 +54,7 @@ public class AıShip : ShipBase
         }
         currentState = followState;
     }
-    private void Update()
+    protected override void Update()
     {
         if (isStunned || isForce)
         {
@@ -236,18 +238,19 @@ public class FireState : StateAı//tartışmalı
     }
     public override void UpdateState(AıShip aiShip)
     {
-        if (atackTimer>0)
+        if (atackTimer > 0)
         {
             atackTimer -= Time.deltaTime;
         }
         else
         {
             atackTimer = 1f;
-            hitSize = Physics.OverlapSphereNonAlloc(aiShip.transform.position,75f, hits, aiShip.skillLayer);
-            if (hitSize>0)
+            hitSize = Physics.OverlapSphereNonAlloc(aiShip.transform.position, 750f, hits, aiShip.PlayerLayer);
+            if (hitSize > 0)
             {
                 for (int i = 0; i < hits.Length; i++)
                 {
+
                     temp = Vector3.Distance(aiShip.transform.position, hits[i].transform.position);
                     if (temp < maxSize)
                     {

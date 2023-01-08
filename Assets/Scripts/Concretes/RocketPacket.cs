@@ -6,7 +6,7 @@ public class RocketPacket : MonoBehaviour
 {
     [SerializeField] RocketBase rocket;
     RocketBase _rocket;
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
 
         if (collision.gameObject.TryGetComponent<ShipBase>(out ShipBase ship))
@@ -15,6 +15,7 @@ public class RocketPacket : MonoBehaviour
             {
                 Debug.Log("Collided");
                 _rocket = Instantiate(rocket);
+                gameObject.layer = 0;
                 if (ship.GetComponent<RocketLauncher>().Add(_rocket))
                 {
                     Debug.Log("Add çalýþtýrýldý");

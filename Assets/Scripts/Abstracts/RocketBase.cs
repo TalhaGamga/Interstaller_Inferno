@@ -30,7 +30,6 @@ public abstract class RocketBase : MonoBehaviour/*, IFirable*/
         Debug.Log("Çarptýðý : " + other);
         if (other.gameObject.TryGetComponent(out ShipBase shipBase))
         {
-
             if (shipBase == gelen)
             {
                 Debug.Log("Gelen : " + gelen);
