@@ -128,40 +128,33 @@ public class AıShip : ShipBase
     {
         if (other.gameObject.TryGetComponent(out IObstacle obstacle))
         {
-
-            StartCoroutine(IEStateDelay());
-
+            SwitchState(followState);
         }
-    }
-    IEnumerator IEStateDelay()
-    {
-        yield return new WaitForSeconds(1.5f);
-        SwitchState(followState);
     }
     public List<Action> moveActions = new List<Action>();
     public List<Action> MoveActions(Vector3 ship, Transform target)
     {
-        Vector3 yon=new Vector3(0,0,0);
+        Vector3 yon = new Vector3(0, 0, 0);
         Debug.Log("moveActions");
         moveActions.Clear();
-        float left, right,up,down;
-        left = Vector3.Distance(transform.position,target.position-target.right);
-        right= Vector3.Distance(transform.position, target.position + target.right);
+        float left, right, up, down;
+        left = Vector3.Distance(transform.position, target.position - target.right);
+        right = Vector3.Distance(transform.position, target.position + target.right);
         down = Vector3.Distance(transform.position, target.position - target.up);
         up = Vector3.Distance(transform.position, target.position + target.up);
-        if (left<right)
+        if (left < right)
         {
             moveActions.Add(MoveLeft);
-            yon += (target.position - target.right*3);
+            yon += (target.position - target.right * 3);
         }
         else
         {
             moveActions.Add(MoveRight);
-            yon += (target.position + target.right*3);
+            yon += (target.position + target.right * 3);
         }
-        if (down<up)
+        if (down < up)
         {
-            moveActions.Add(MoveDown);    
+            moveActions.Add(MoveDown);
         }
         else
         {
@@ -173,13 +166,13 @@ public class AıShip : ShipBase
     {
         float timer = 2f;
         Vector3 vector31 = (vector3 - transform.position).normalized;
-        while (timer>0)
+        while (timer > 0)
         {
             transform.LookAt(transform.position + vector31);
             timer -= Time.deltaTime;
             yield return null;
         }
-       
+
     }
     private void OnDrawGizmos()
     {
@@ -202,12 +195,21 @@ public abstract class StateAı
 
 public class FireState : StateAı//tartışmalı
 {
+    float atackTimer = 1f;
     public override void EnterState(AıShip aiShipSource)
     {
         aiShipSource.shipManager.onFireAction.Invoke(aiShipSource);
     }
     public override void UpdateState(AıShip aiShip)
     {
+        if (atackTimer>0)
+        {
+            atackTimer -= Time.deltaTime;
+        }
+        else
+        {
+            atackTimer = 1f;
+        }
 
     }
 }
@@ -219,7 +221,7 @@ public class ObstacleState : StateAı
     }
     public override void UpdateState(AıShip aiShip)
     {
-        aiShip.transform.position += aiShip.transform.forward * Time.deltaTime * aiShip.multiple * aiShip.speed*.3f;
+        aiShip.transform.position += aiShip.transform.forward * Time.deltaTime * aiShip.multiple * aiShip.speed * .3f;
         foreach (var action in aiShip.moveActions)
         {
             action.Invoke();
