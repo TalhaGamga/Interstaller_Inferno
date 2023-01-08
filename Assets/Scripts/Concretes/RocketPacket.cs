@@ -11,13 +11,17 @@ public class RocketPacket : MonoBehaviour
 
         if (collision.gameObject.TryGetComponent<ShipBase>(out ShipBase ship))
         {
-            Debug.Log("Collided");
-            _rocket = Instantiate(rocket);
-            if (ship.GetComponent<RocketLauncher>().Add(_rocket))
+            for (int i = 0; i < 3; i++)
             {
-                Debug.Log("Add çalýþtýrýldý");
-                Destroy(gameObject);
+                Debug.Log("Collided");
+                _rocket = Instantiate(rocket);
+                if (ship.GetComponent<RocketLauncher>().Add(_rocket))
+                {
+                    Debug.Log("Add çalýþtýrýldý");
+                }
             }
+
+            Destroy(gameObject);
         }
     }
 }

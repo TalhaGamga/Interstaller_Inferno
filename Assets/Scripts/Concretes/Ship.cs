@@ -37,6 +37,8 @@ public class Ship : ShipBase
     [SerializeField] RocketLauncher shipRocketLauncher;
 
     [SerializeField] RocketBase rocket;
+
+    [SerializeField] LayerMask aiLayer;
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, 100);
@@ -59,13 +61,14 @@ public class Ship : ShipBase
         }
     }
     /*INPUTS TODO   */
+
+    ShipBase source;
     public void Fire()
     {
-        ShipBase shipBase =this;
+        ShipBase shipBase = this;
         float temp;
         float maxSize = float.MaxValue;
-        int hitSize = Physics.OverlapSphereNonAlloc(transform.position,100f,hits,layer);
-        Debug.Log(hitSize);
+        int hitSize = Physics.OverlapSphereNonAlloc(transform.position, 500f, hits, aiLayer);
         if (hitSize == 0)
         {
             return;//en öndeki objeye doðru git
@@ -73,17 +76,22 @@ public class Ship : ShipBase
         for (int i = 0; i < hitSize; i++)
         {
             temp = Vector3.Distance(transform.position, hits[i].transform.position);
-            if (maxSize < temp)
+            if (temp<maxSize)
             {
                 maxSize = temp;
-                if(hits[i].TryGetComponent(out ShipBase ship))
+                if (hits[i].TryGetComponent(out ShipBase ship))
                 {
-                    shipBase = ship;
-                    shipManager.OnRocketLaunching.Invoke(shipBase);
+                    Debug.Log(ship.gameObject + " ------------------------");
+                    source = ship;
                 }
             }
         }
+
+        Debug.Log("Fire bitti " + source);
+
+        shipManager.OnRocketLaunching.Invoke(source);
     }
+
 
     public override void Movement()
     {
