@@ -8936,7 +8936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipManager: {fileID: 0}
-  speed: 10
+  speed: 9.8
   hp: 100
   scale: {x: 0, y: 0, z: 0}
   normalSpeed: 0
@@ -53171,7 +53171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipManager: {fileID: 0}
-  speed: 10
+  speed: 10.5
   hp: 100
   scale: {x: 0, y: 0, z: 0}
   normalSpeed: 0

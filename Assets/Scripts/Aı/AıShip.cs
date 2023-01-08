@@ -135,7 +135,15 @@ public class AıShip : ShipBase
     {
         if (other.gameObject.TryGetComponent(out AıShip shipBase))
         {
-            shipBase.MoveRight();
+            if (transform.position.y>shipBase.transform.position.y)
+            {
+                shipBase.MoveDown();
+            }
+            else
+            {
+                shipBase.MoveUp();
+            }
+           
         }
     }
     public List<Action> moveActions = new List<Action>();
