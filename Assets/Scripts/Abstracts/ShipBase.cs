@@ -81,7 +81,6 @@ public abstract class ShipBase : MonoBehaviour
         float timer = 1f,force=2f;
         while (timer>0)
         {
-            // yöne göre hızlıdan yavaşa doğru hareket et timeri kullan
             transform.position += force * Time.deltaTime * poz;
             force -= Time.deltaTime * 3;
             timer -= Time.deltaTime;
