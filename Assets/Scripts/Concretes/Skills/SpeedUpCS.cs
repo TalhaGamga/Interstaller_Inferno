@@ -16,5 +16,6 @@ public class SpeedUpCS : CollectableSkillBase
         ship.speed *= 2;
         yield return new WaitForSeconds(5);
         ship.speed = ship.normalSpeed;
+        gameObject.SetActive(false);
     }
 }

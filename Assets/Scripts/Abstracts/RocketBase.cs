@@ -15,16 +15,15 @@ public abstract class RocketBase : MonoBehaviour/*, IFirable*/
 
     public virtual void Use(ShipBase ship)
     {
+        gameObject.layer = 0;
         ship.hp -= damage;//todo
     }
-
-    private void OnTriggerEnter(Collider other) //Roket shipe çarptýðýnda
+    protected virtual void OnTriggerEnter(Collider other) //Roket shipe çarptýðýnda
     {
         if (other.gameObject.TryGetComponent(out ShipBase shipBase))
         {
 
             Use(shipBase);
-            //todo ??
 
         }
     }

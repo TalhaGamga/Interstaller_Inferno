@@ -8,10 +8,13 @@ public interface IFirable
     void GiveDamage(ShipBase Source);
     void Move(ShipBase Source);
 }
-public enum Move
+public enum MoveX
 {
     left,
     right,
+}
+public enum MoveY
+{
     up,
     down
 }

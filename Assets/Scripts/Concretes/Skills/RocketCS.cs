@@ -7,7 +7,7 @@ public class RocketCS : CollectableSkillBase
 
     public override Tween Use(ShipBase ship)
     {
-        return base.Use(ship);
+        return base.Use(ship);//roket instance
     }
 
 }

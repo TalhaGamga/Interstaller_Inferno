@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class Ship : ShipBase
 {
     float brakeInput;
@@ -62,7 +62,10 @@ public class Ship : ShipBase
             if (maxSize < temp)
             {
                 maxSize = temp;
-                shipBase = hits[i].GetComponent<ShipBase>();
+                if(hits[i].TryGetComponent(out ShipBase ship))
+                {
+                    shipBase = ship;
+                }
             }
         }
         shipManager.onFireAction.Invoke(shipBase);
@@ -163,5 +166,13 @@ public class Ship : ShipBase
         canRoll = true;
     }
 
-
+    public override void Stun()
+    {
+        base.Stun();
+        Shake(1, 100, 10, 1);
+    }
+    public void Shake(float duration, float strength, int vibrato, float randomness)
+    {
+        Camera.main.transform.DOShakePosition(duration, strength, vibrato, randomness);
+    }
 }

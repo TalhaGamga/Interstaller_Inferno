@@ -7,6 +7,7 @@ public class RocketLauncher : MonoBehaviour// sadece 1 tane olacak
     public List<Transform> slots;
     [SerializeField]
     ShipManager shipManager;
+    Queue<RocketBase> rockets = new Queue<RocketBase>();
     private void OnEnable()
     {
         shipManager.onFireAction += Fire;
@@ -16,14 +17,13 @@ public class RocketLauncher : MonoBehaviour// sadece 1 tane olacak
     {
         shipManager.onFireAction -= Fire;
     }
-    Queue<RocketBase> rockets = new Queue<RocketBase>();
+ 
     public void Add(RocketBase rocket)
     {
         if (!rocket.isAdding)
         {
             rockets.Enqueue(rocket);
-            rocket.transform.DOLocalJump(transform.position, 2f, 1, 1f);
-            rocket.gameObject.SetActive(true);
+            rocket.transform.DOLocalJump(transform.position, 2f, 1, 1f).OnStepComplete(()=> rocket.gameObject.SetActive(true));
         }
 
     }
